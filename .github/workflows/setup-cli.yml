@@ -1,0 +1,22 @@
+name: Setup hx CLI
+on: workflow_dispatch
+jobs:
+  install-and-auth:
+    name: Install and Authenticate hx CLI
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+      - name: setup hx CLI
+        id: setup
+        uses: Hyphen/setup-hx-action@v1
+        with:
+          apiKey: ${{ secrets.HYPHEN_API_KEY }}
+          hyphen-dev: true
+      - name: List Project
+        id: list-project
+        run: hx project list
